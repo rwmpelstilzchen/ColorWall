@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import argparse, sys
+import argparse
 
 from wall import Wall
 import effects
@@ -24,13 +24,13 @@ if __name__ == "__main__":
     wall = Wall(args.width, args.height)
 
     if args.effects:
-        effects_to_run = [getattr(effects, a) for a in args.effects \
-                              if hasattr(effects, a)]
+        effects_to_run = [getattr(effects, a) for a in args.effects
+                          if hasattr(effects, a)]
 
     else:
         effects_to_run = effects.Effects
 
     for effect in effects_to_run:
         new_effect = effect(wall)
-        print new_effect.__class__.__name__
+        print(new_effect.__class__.__name__)
         new_effect.run()

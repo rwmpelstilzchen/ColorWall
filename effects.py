@@ -3,15 +3,16 @@ import time
 import ascii8x8
 
 # A dictionary of hsv values for some common colors.
-colors = {"black":(0, 0, 0), "white":(0, 0, 1), "gray":(0, 0, 0.5),
-          "red":(0, 1, 1), "blue":(0.66, 1, 1), "yellow":(0.16, 1, 1),
-          "purple":(0.85, 1, 0.5), "green":(0.33, 1, 0.5),
-          "orange":(0.083, 1, 1), "pink":(0.9, 1, 1), "lime":(0.33, 1, 1),
-          "baby blue":(0.66, 0.5, 1), "cyan":(0.5, 1, 1),
-          "brown":(0.07, 0.86, 0.54), "beige":(0.083, 0.32, 1),
-          "indigo":(0.75, 1, 0.5), "dark gray":(0, 0, 0.15),
-          "light gray":(0, 0, 0.75), "maroon":(0, 1, 0.5),
-          "navy":(0.66, 1, 0.25)}
+colors = {"black": (0, 0, 0), "white": (0, 0, 1), "gray": (0, 0, 0.5),
+          "red": (0, 1, 1), "blue": (0.66, 1, 1), "yellow": (0.16, 1, 1),
+          "purple": (0.85, 1, 0.5), "green": (0.33, 1, 0.5),
+          "orange": (0.083, 1, 1), "pink": (0.9, 1, 1), "lime": (0.33, 1, 1),
+          "baby blue": (0.66, 0.5, 1), "cyan": (0.5, 1, 1),
+          "brown": (0.07, 0.86, 0.54), "beige": (0.083, 0.32, 1),
+          "indigo": (0.75, 1, 0.5), "dark gray": (0, 0, 0.15),
+          "light gray": (0, 0, 0.75), "maroon": (0, 1, 0.5),
+          "navy": (0.66, 1, 0.25)}
+
 
 class Effect(object):
     def __init__(self, wall):
@@ -20,6 +21,7 @@ class Effect(object):
 
     def run(self):
         pass
+
 
 class SolidColorTest(Effect):
     def run(self):
@@ -35,6 +37,7 @@ class SolidColorTest(Effect):
         self.wall.draw()
         time.sleep(2)
 
+
 class HueTest(Effect):
     def run(self):
         hue = random.random()
@@ -47,6 +50,7 @@ class HueTest(Effect):
             self.wall.draw()
             hue = (hue + .01) % 1
             time.sleep(.05)
+
 
 class SaturationTest(Effect):
     def run(self):
@@ -62,6 +66,7 @@ class SaturationTest(Effect):
             saturation = (saturation + .05) % 1
             time.sleep(.05)
 
+
 class ValueTest(Effect):
     def run(self):
         hue = random.random()
@@ -76,14 +81,16 @@ class ValueTest(Effect):
             value = (value + .05) % 1
             time.sleep(.05)
 
+
 class DictionaryTest(Effect):
     def run(self):
-        for color in colors.keys():
+        for color in list(colors.keys()):
             for x in range(self.wall.width):
                 for y in range(self.wall.height):
                     self.wall.set_pixel(x, y, colors[color])
             self.wall.draw()
             time.sleep(0.5)
+
 
 class Checkerboards(Effect):
     def run(self):
@@ -96,6 +103,7 @@ class Checkerboards(Effect):
                         self.wall.set_pixel(x, y, colors["yellow"])
             self.wall.draw()
             time.sleep(0.5)
+
 
 class Columns(Effect):
     def run(self):
@@ -110,6 +118,7 @@ class Columns(Effect):
                     time.sleep(.02)
                     self.wall.clear()
                     hue = (hue + .05) % 1
+
 
 class Rainbow(Effect):
     def run(self):
@@ -167,6 +176,7 @@ class Twinkle(Effect):
             self.wall.set_pixel(x, y, hsv)
             self.wall.draw()
             time.sleep(.01)
+
 
 class KnightMoves(Effect):
     def __init__(self, wall):
@@ -227,12 +237,13 @@ class KnightMoves(Effect):
         if (self.knight_x + 2) < self.wall.width and (self.knight_y - 1) >= 0:
             moves.append((self.knight_x + 2, self.knight_y - 1))
         if (self.knight_x + 2) < self.wall.width and \
-          (self.knight_y + 1) < self.wall.height:
+                (self.knight_y + 1) < self.wall.height:
             moves.append((self.knight_x + 2, self.knight_y + 1))
         if (self.knight_x + 1) < self.wall.width and \
-          (self.knight_y + 2) < self.wall.height:
+                (self.knight_y + 2) < self.wall.height:
             moves.append((self.knight_x + 1, self.knight_y + 2))
         return moves
+
 
 class Matrix(Effect):
     class Column(object):
@@ -241,7 +252,7 @@ class Matrix(Effect):
             self.cache = []
             # Tail must be at least 1 pixel long
             self.tail = max(1, random.randint(
-                    self.wall.height / 2, self.wall.height * 2))
+                self.wall.height / 2, self.wall.height * 2))
             # Get a position somewhere above the wall (so it can trickle down
             # onto the wall)
             self.pos = (random.randint(0, self.wall.width - 1),
@@ -317,6 +328,7 @@ class Matrix(Effect):
                 timeout -= 1
             drawing = 0
 
+
 class LetterTest(Effect):
     """
     Cycle through the letters of the alphabet.
@@ -338,7 +350,7 @@ class LetterTest(Effect):
 
         # Display upper and lower case letters. The break between 90 and 97 is
         # for non-letter keyboard characters.
-        for ord in range(65, 91) + range(97, 123):
+        for ord in list(range(65, 91)) + list(range(97, 123)):
             self.wall.clear()
 
             # Set every pixel to the background color, since ascii8x8 will only
@@ -352,6 +364,7 @@ class LetterTest(Effect):
                               x_offset, y_offset)
             self.wall.draw()
             time.sleep(.1)
+
 
 class Bouncer(Effect):
     class Ball(object):
@@ -409,6 +422,7 @@ class Bouncer(Effect):
                 ball.advance()
             self.wall.draw()
             time.sleep(.1)
+
 
 class Message(Effect):
     message = [

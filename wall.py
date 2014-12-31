@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-from Tkinter import ALL, Canvas, Frame, SUNKEN, Tk
+try:
+    from tkinter import ALL, Canvas, Frame, SUNKEN, Tk  # for Python 3
+except ImportError:
+    from Tkinter import ALL, Canvas, Frame, SUNKEN, Tk  # for Python 2
 import colorsys
 
 """
@@ -25,6 +28,7 @@ draw(): Re-draw every pixel on the wall based on the pixel's HSV tuple.
 clear(): Set every pixel on the wall to black (HSV (0, 0, 0)). This does not
 re-draw the pixels.
 """
+
 
 class Wall(object):
     MIN_RED = MIN_GREEN = MIN_BLUE = 0x0
@@ -62,7 +66,7 @@ class Wall(object):
         self.canvas.delete(ALL)
         for x in range(len(self.pixels)):
             x_0 = (x % self.width) * self.PIXEL_WIDTH
-            y_0 = (x / self.width) * self.PIXEL_WIDTH
+            y_0 = (x // self.width) * self.PIXEL_WIDTH
             x_1 = x_0 + self.PIXEL_WIDTH
             y_1 = y_0 + self.PIXEL_WIDTH
             hue = "#%02x%02x%02x" % self._get_rgb(self.pixels[x])
